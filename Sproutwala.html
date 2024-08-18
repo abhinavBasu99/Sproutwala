@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sproutwala - Health for All</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;600&family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: url('Media/Wood Texture Background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            overflow-x: hidden;
+        }
+
+        /* Header styling */
+        header {
+	    position: relative;
+            width: 100%;
+            height: 8rem;
+            background: #1e7f61; /* Darker green background */
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+            text-align: center;
+	    align-items: center;
+            justify-content: center;
+    	}
+
+        .logo-container {
+            flex: 1;
+        }
+
+        header img {
+	    width: 340px;
+            height: auto;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 10px solid #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
+    	}
+
+        header h1 {
+	    margin: 0;
+            font-size: 2rem;
+        }
+
+        header p {
+	    font-size: 1rem;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 85%;
+            margin: auto;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 30px;
+        }
+
+        .launching {
+            text-align: center;
+            padding: 1rem 0;
+            background: #fffb;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launching h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: #1e7f61;
+            position: relative;
+            animation: slideIn 2s ease-out;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .portrait-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 40%;
+            margin: 0 auto;
+        }
+
+        .portrait-card section {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .image-slider {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .image-slider img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            transition: left 1s ease-in-out;
+        }
+
+        .image-slider img.active {
+            left: 0;
+        }
+
+        .portrait-card h2 {
+            margin-top: 0;
+            color: #1e7f61;
+        }
+
+        .portrait-card p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .limited-stock {
+            background: #ff4c4c;
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #ff4c4c;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+	.button-container {
+    	    text-align: center;
+	}
+
+        .button:hover {
+            background: #bccb00;
+        }
+
+        .footer {
+            background: #1e7f61;
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer .contact-info {
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .form-container {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .sprout-list, .additional-info {
+            width: 20%;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .sprout-list {
+            margin-right: 1rem;
+        }
+
+        .additional-info {
+            margin-left: 1rem;
+        }
+
+        .sprout-card {
+            width: 100%;
+            height: auto;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease, z-index 0s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sprout-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .sprout-card h3 {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            color: #1e7f61;
+        }
+
+        .sprout-card:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .sprout-card:hover .sprout-info {
+            opacity: 1;
+        }
+
+	header h1, header p, .launching h2, .portrait-card h2, .portrait-card p {
+    	    font-family: 'Lobster';
+	}
+
+ 	h2, h3 {
+    	    font-family: 'Lobster';
+	}
+
+	p, section, .sprout-list, .additional-info {
+    	    font-family: 'Open Sans', sans-serif;
+	}
+
+	.button, .limited-stock, .footer {
+    	    font-family: 'Roboto', sans-serif;
+	}
+
+	/* Universal Box-Sizing for all elements */
+* {
+    box-sizing: border-box;
+}
+
+/* Media query for screens 768px or smaller */
+@media screen and (max-width: 768px) {
+    /* General Body */
+    body {
+        background-size: contain;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+
+    .form-container {
+        width: 100%; /* Full width */
+        height: auto; /* Auto-adjust height */
+        top: 5%; /* Adjust the position */
+        left: 50%;
+        transform: translateX(-50%); /* Center horizontally */
+        padding: 1rem; /* Add padding */
+        max-height: 85vh; /* Limit the height to avoid overflowing */
+        overflow-y: auto; /* Allow scrolling within the form */
+    }
+
+    .logo-container {
+        flex: none;
+        text-align: center;
+    }
+
+    /* Main container layout */
+    .container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Ensure container takes up the full width */
+        padding: 0 1rem; /* Add padding to prevent content from touching the edges */
+	display: flex;
+        flex-wrap: wrap; /* Allow wrapping of child elements */
+    }
+
+    /* Reordering the portrait card to be at the top */
+    .portrait-card {
+	grid-column: 1 / -1;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+
+    .portrait-card section {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Sprout list and additional info side by side */
+    .sprout-list, .additional-info {
+        width: calc(50% - 1rem); /* Make them side by side, considering a gap */
+        margin: 0.5rem; /* Add a margin to separate them */
+        box-sizing: border-box; /* Ensure padding and border are included in the width */
+    }
+
+    .sprout-list {
+        order: 2;
+        margin-right: 0; /* Remove margin to prevent overflow */
+	width : 90%;
+    }
+
+    .additional-info {
+        order: 3;
+        margin-left: 0; /* Remove margin to prevent overflow */
+	width : 90%;
+    }
+
+    .container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Ensure container takes up the full width */
+        padding: 0 1rem; /* Add padding to prevent content from touching the edges */
+        display: flex;
+        flex-wrap: wrap; /* Allow wrapping of child elements */
+    }
+
+    .button-container {
+        text-align: center;
+    }
+
+    /* Sprout card styling */
+    .sprout-card {
+        width: 100%;
+            height: auto;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease, z-index 0s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+    }
+
+    .sprout-card img {
+         width: 100%;
+            height: 150px;
+            object-fit: cover;
+    }
+
+    iframe {
+        width: 100%; /* Make iframe responsive */
+        height: 700px; /* Auto height for the iframe */
+    }
+
+    .parent {
+  	display: grid;
+  	grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+  	gap: 10px; /* Optional: adds space between the columns */
+	align-items: start;
+    }
+}
+
+/* Media query for very small screens (e.g., 480px or smaller) */
+@media screen and (max-width: 480px) {
+    /* Header */
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    /* Portrait card at the top */
+    .portrait-card {
+        order: 1;
+    }
+
+    /* Sprout-list and additional-info stacked vertically */
+    .sprout-list, .additional-info {
+        width: 100%; /* Full width to prevent overflow */
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .sprout-card {
+        width: 100%;
+    }
+
+    .portrait-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .portrait-card p {
+        font-size: 1rem;
+    }
+
+    .limited-stock, .button {
+        font-size: 1rem;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="Media/Sproutwala Logo.png" alt="Sproutwala Logo">
+        </div>
+    </header>
+
+    <div class="launching">
+        <h2>Launching On 30th August</h2>
+    </div>
+
+    <div class="container parent">
+        <div class="sprout-list">
+            <div class="sprout-card">
+                <img src="Media/Moong.jpg" alt="Moong Image" class="sprout-image">
+                <h3>Moong</h3>
+            </div>
+            <div class="sprout-card">
+                <img src="Media/Chana.jpg" alt="Chana Image" class="sprout-image">
+                <h3>Chana</h3>
+            </div>
+            <div class="sprout-card">
+                <img src="Media/Peanuts.jpg" alt="Peanuts Image" class="sprout-image">
+                <h3>Peanuts</h3>
+            </div>
+            <div class="sprout-card">
+                <img src="Media/Moth.jpg" alt="Moth Image" class="sprout-image">
+                <h3>Moth / Matki</h3>
+            </div>
+            <div class="sprout-card">
+                <img src="Media/Soybean.jpg" alt="Soybean Image" class="sprout-image">
+                <h3>Soybean</h3>
+            </div>
+            <div class="sprout-card">
+                <img src="Media/Wheat.jpg" alt="Wheat Image" class="sprout-image">
+                <h3>Wheat</h3>
+            </div>
+            <!-- Repeat similar structure for 4 more sprouts -->
+        </div>
+
+        <div class="portrait-card">
+            <section>
+                <h2>Delicious & Nutritious Sprouts Mix</h2>
+                <div class="image-slider">
+                    <img src="Media/Sprout Mix 1.jpg" class="active" alt="Sprout Mix 1">
+                    <img src="Media/Sprout Mix 2.jpg" alt="Sprout Mix 2">
+                </div>
+		<p>Made with 6 different types of sprouts, 3 vegetables with dressing of lemon juice and spices that will enhance the taste while keeping your health in check</p>
+            </section>
+            <section>
+                <h2>Pricing & Subscription</h2>
+                <p>Price per product: 50 Rs</p>
+                <p>Weekly subscription: 280 Rs (40 Rs per product)</p>
+                <p>Free doorstep delivery!</p>
+		<div class="limited-stock">Only 50 pieces in stock per day. Hurry!</div>
+                <div class="button-container">
+        	    <a href="#" class="button" id="order-now-button" onclick="openForm()">Order Now</a>
+    		</div>
+            </section>
+        </div>
+
+        <div class="additional-info">
+            <div class="sprout-card">
+                <img src="Media/Cucumber.jpg" alt="Cucumber Image" class="sprout-image">
+                <h3>Cucumber</h3>
+            </div>
+            <div class="sprout-card">
+                <img src="Media/Tomato.jpg" alt="Tomato Image" class="sprout-image">
+                <h3>Tomato</h3>
+            </div>
+	    <div class="sprout-card">
+                <img src="Media/Lemon.jpg" alt="Lemon Image" class="sprout-image">
+                <h3>Lemon Juice</h3>
+            </div>
+	    <div class="sprout-card">
+                <img src="Media/Onion.jpg" alt="Onion Image" class="sprout-image">
+                <h3>Onion</h3>
+            </div>
+	    <div class="sprout-card">
+                <img src="Media/Salt and Black Pepper.jpg" alt="Salt and Black Pepper Image" class="sprout-image">
+                <h3>Salt & Black Pepper</h3>
+            </div>
+	    <div class="sprout-card">
+                <img src="Media/Chat Masala.jpg" alt="Chat Masala Image" class="sprout-image">
+                <h3>Chat Masala</h3>
+            </div>
+            <!-- Repeat similar structure for more additional info -->
+        </div>
+    </div>
+
+    <div class="form-container"  id="form-container">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe4pQmFS6ig5JVupRIHBr-71zTy9AYVC393cg0nVCoOS77dQQ/viewform?embedded=true" width="640" height="700" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+    </div>
+
+    <footer class="footer">
+	<h3> Contact Us :- </h3>
+        <div class="contact-info">
+            <p>Email: abhinavbasu99@gmail.com | Phone: 9909333723</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript to handle the slider transitions
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.image-slider img');
+        const totalSlides = slides.length;
+
+        function showNextSlide() {
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % totalSlides;
+            slides[currentIndex].classList.add('active');
+        }
+
+        setInterval(showNextSlide, 3000);
+
+	// Function to open the form and hide the button
+function openForm() {
+    document.getElementById('form-container').style.display = 'block';
+    document.getElementById('order-now-button').style.display = 'none';
+}
+
+// Function to close the form and show the button again
+function closeForm() {
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('order-now-button').style.display = 'inline-block';
+}
+
+// Event listener to detect clicks outside the form
+document.addEventListener('click', function(event) {
+    const formContainer = document.getElementById('form-container');
+    const orderNowButton = document.getElementById('order-now-button');
+
+    if (formContainer.style.display === 'block' && !formContainer.contains(event.target) && event.target !== orderNowButton) {
+        closeForm();
+    }
+});
+    </script>
+</body>
+</html>
