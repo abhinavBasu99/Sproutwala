@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sproutwala - Health for All</title>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;600&family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <script src="https://apis.google.com/js/api.js"></script>
     <style>
 	@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
@@ -159,13 +160,41 @@
             font-size: 1.1rem;
         }
 
+	.order-counter-container {
+	    text-align: center;
+	}
+
+	#order-counter {
+	    display: inline-block;
+	    margin-top: 1rem;
+	    font-family: 'Roboto', sans-serif;
+	    background: #ff4c4c;
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1rem;
+	}
+
+	#order-message {
+	    display: inline-block;
+	    margin-top: 1rem;
+	    font-family: 'Roboto', sans-serif;
+	    background: #444746;
+            color: #fff;
+            padding: 0.5rem;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1rem;
+	}
+
         .button {
             display: inline-block;
             padding: 10px 20px;
             font-size: 1.2rem;
             color: #fff;
             background: #ff4c4c;
-            border-radius: 5px;
+            border-radius: 30px;
             text-decoration: none;
             margin-top: 1rem;
             transition: background 0.3s ease;
@@ -316,6 +345,18 @@
         	transform: translateX(0);
         	opacity: 1;
     	    }
+	}
+
+	#close-button {
+	    position: absolute;
+    	    top: 0px;
+    	    right: 0px;
+    	    background-color: transparent;
+    	    border: none;
+    	    font-size: 34px;
+    	    cursor: pointer;
+    	    font-weight: bold;
+    	    color: indianred;
 	}
 
 
@@ -553,6 +594,12 @@
 
 		<div class="limited-stock">Only 50 pieces in stock per day. Hurry!</div>
 
+		<div class="order-counter-container">
+		    <div id="order-counter">Today's Orders: 0</div>
+		</div>
+	
+		<div id="order-message"></div>
+
     		<div class="button-container">
         	    <a href="#" class="button" id="order-now-button" onclick="openForm()">Order Now</a>
     		</div>
@@ -590,6 +637,8 @@
 
     <div class="form-container"  id="form-container">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe4pQmFS6ig5JVupRIHBr-71zTy9AYVC393cg0nVCoOS77dQQ/viewform?embedded=true" width="640" height="700" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+	
+	<button id="close-button">x</button>
     </div>
 
     <footer class="footer">
@@ -635,33 +684,86 @@
     	    }
 	});
 
+	document.getElementById("close-button").onclick = function() {
+            closeForm();
+  	}
+
 	document.addEventListener("DOMContentLoaded", function() {
-    const deliveryInfos = document.querySelectorAll('.delivery-info');
+    	    const deliveryInfos = document.querySelectorAll('.delivery-info');
 
-    // Check if IntersectionObserver is supported
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Add the 'animate' class when the element comes into view
-                    entry.target.classList.add('animate');
-                    // Stop observing once animation is triggered
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+    	    // Check if IntersectionObserver is supported
+    	    if ('IntersectionObserver' in window) {
+        	const observer = new IntersectionObserver((entries, observer) => {
+            	    entries.forEach(entry => {
+                	if (entry.isIntersecting) {
+                    	    // Add the 'animate' class when the element comes into view
+                    	    entry.target.classList.add('animate');
+                    	    // Stop observing once animation is triggered
+                    	    observer.unobserve(entry.target);
+                	}
+            	    });
+            	}, { threshold: 0.1 }); // Trigger when 10% of the element is visible
 
-        // Start observing each element
-        deliveryInfos.forEach(deliveryInfo => {
-            observer.observe(deliveryInfo);
-        });
-    } else {
-        // Fallback for unsupported browsers
-        deliveryInfos.forEach(deliveryInfo => {
-            deliveryInfo.classList.add('animate');
-        });
-    }
-});
+            	// Start observing each element
+            	deliveryInfos.forEach(deliveryInfo => {
+            	    observer.observe(deliveryInfo);
+            	});
+    	    } else {
+        	// Fallback for unsupported browsers
+        	deliveryInfos.forEach(deliveryInfo => {
+            	    deliveryInfo.classList.add('animate');
+        	});
+    	    }
+	});
+
+	function updateCounter() {
+    	    // Replace this URL with the URL of your published Google Sheet
+    	    const sheetId = '1U51sQ56uQvzZsamo00b0EeML9lYEM9r6N_rII1zV3tQ'; // Get from the published sheet URL
+    	    const range = 'Order Count!A:B'; // Range of cells containing dates and counts
+
+    	    // Google Sheets API URL
+    	    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=AIzaSyAkUObjK8N9eZ7NFqjm3qn_XTaUH6bVuPw`;
+
+    	    // Fetch data from Google Sheets API
+    	    fetch(apiUrl)
+        	.then(response => response.json())
+        	.then(data => {
+            	    const rows = data.values;
+            	    if (rows.length > 0) {
+                	// Assume the last row has the most recent count
+                	const lastRow = rows[rows.length - 1];
+                	const count = parseInt(lastRow[1], 10); // Column B has the count
+
+                	// Update the counter on your webpage
+                	document.getElementById('order-counter').innerText = `Today's Orders: ${count}`;
+
+                	// Check if the count is 50 or if the time is 9 PM or later
+                	const now = new Date();
+                	const hours = now.getHours();
+
+                	if (count >= 50) {
+                    	    document.getElementById('order-now-button').style.display = 'none';
+                    	    document.getElementById('order-message').innerText = "Sorry, stock out.😔 Don't forget to grab your Sprout Mix tomorrow.";
+                	} else {
+                    	    document.getElementById('order-message').innerText = ''; // Clear any previous message
+                	}
+
+			if (hours >= 21) {
+                    	    document.getElementById('order-now-button').style.display = 'none';
+                    	    document.getElementById('order-message').innerText = "Time is up for ordering today (9 pm).😔 Don't forget to grab your Sprout Mix tomorrow.";
+                	} else {
+                    	    document.getElementById('order-message').innerText = ''; // Clear any previous message
+                	}
+            	    } else {
+                	console.error('No data found.');
+            	    }
+        	})
+        	.catch(error => console.error('Error fetching data:', error));
+	}
+
+// Call updateCounter when the page loads
+document.addEventListener('DOMContentLoaded', updateCounter);
+
     </script>
 </body>
 </html>
