@@ -6,6 +6,13 @@
     <title>Sproutwala - Health for All</title>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans:wght@400;600&family=Roboto:wght@500&display=swap" rel="stylesheet">
     <style>
+	@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+	/* Universal Box-Sizing for all elements */
+	* {
+    	    box-sizing: border-box;
+	}
+	
         body {
             font-family: 'Open Sans', sans-serif;
             margin: 0;
@@ -269,11 +276,48 @@
 	.button, .limited-stock, .footer {
     	    font-family: 'Roboto', sans-serif;
 	}
+	
+	.delivery-info {
+	    font-family: 'Roboto', sans-serif;
+    	    font-size: 1rem;
+    	    color: #1e7f61;
+    	    font-weight: bold;
+    	    background-color: #ffeb3b;
+    	    padding: 0.8rem 1rem;
+    	    border-radius: 5px;
+    	    margin: 1rem auto; /* Center horizontally */
+    	    width: fit-content; /* Adjust to fit content */
+    	    display: flex; /* Allows for better control with flexbox */
+    	    align-items: center; /* Center icon and text vertically */
+    	    justify-content: center; /* Center the content horizontally */
+    	    animation: slideInRight 1.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+	    opacity: 0;
+    	    transform: translateX(-100%);
+    	    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+	}
+	
+	.delivery-info.animate {
+    	    opacity: 1;
+    	    transform: translateX(0);
+	}
 
-	/* Universal Box-Sizing for all elements */
-* {
-    box-sizing: border-box;
-}
+	/* Vehicle icon styling */
+	.delivery-info i {
+    	    margin-right: 10px;
+	}
+
+	/* Slide in animation */
+	@keyframes slideInRight {
+    	    0% {
+        	transform: translateX(-100%);
+        	opacity: 0;
+    	    }
+    	    100% {
+        	transform: translateX(0);
+        	opacity: 1;
+    	    }
+	}
+
 
 /* Media query for screens 768px or smaller */
 @media screen and (max-width: 768px) {
@@ -481,18 +525,38 @@
                     <img src="Media/Sprout Mix 1.jpg" class="active" alt="Sprout Mix 1">
                     <img src="Media/Sprout Mix 2.jpg" alt="Sprout Mix 2">
                 </div>
-		<p>Made with 6 different types of sprouts, 3 vegetables with dressing of lemon juice and spices that will enhance the taste while keeping your health in check</p>
+		<p>Made with 6 different types of sprouts, 3 vegetables with dressing of lemon juice and spices that will enhance the taste while keeping your health in check.</p>
             </section>
             <section>
-                <h2>Pricing & Subscription</h2>
-                <p>Price per product: 50 Rs</p>
-                <p>Weekly subscription: 280 Rs (40 Rs per product)</p>
-                <p>Free doorstep delivery!</p>
+    		<h2>Pricing & Subscription</h2>
+    		<p>Price per product: 40 Rs</p>
+    		<p>Weekly subscription: 210 Rs (30 Rs per product)</p>
+
+		<div class="delivery-info">
+        	    <i class="fa fa-truck"></i> Free doorstep delivery!
+    		</div>
+		<div class="delivery-info">
+		    Pay on Delivery
+    		</div>
+		<div class="delivery-info">
+		    Delivered between 6am to 9am
+    		</div>
+		<div class="delivery-info">
+		    Currently delivering to:
+		    <ul>
+			<li>Prahladnagar</li>
+  			<li>Vejalpur</li>
+  			<li>Satellite</li>
+			<li>Vastrapur</li>
+		    </ul>
+    		</div>
+
 		<div class="limited-stock">Only 50 pieces in stock per day. Hurry!</div>
-                <div class="button-container">
+
+    		<div class="button-container">
         	    <a href="#" class="button" id="order-now-button" onclick="openForm()">Order Now</a>
     		</div>
-            </section>
+	    </section>
         </div>
 
         <div class="additional-info">
@@ -550,24 +614,52 @@
         setInterval(showNextSlide, 3000);
 
 	// Function to open the form and hide the button
-function openForm() {
-    document.getElementById('form-container').style.display = 'block';
-    document.getElementById('order-now-button').style.display = 'none';
-}
+	function openForm() {
+    	    document.getElementById('form-container').style.display = 'block';
+    	    document.getElementById('order-now-button').style.display = 'none';
+	}
 
-// Function to close the form and show the button again
-function closeForm() {
-    document.getElementById('form-container').style.display = 'none';
-    document.getElementById('order-now-button').style.display = 'inline-block';
-}
+	// Function to close the form and show the button again
+	function closeForm() {
+    	    document.getElementById('form-container').style.display = 'none';
+    	    document.getElementById('order-now-button').style.display = 'inline-block';
+	}
 
-// Event listener to detect clicks outside the form
-document.addEventListener('click', function(event) {
-    const formContainer = document.getElementById('form-container');
-    const orderNowButton = document.getElementById('order-now-button');
+	// Event listener to detect clicks outside the form
+	document.addEventListener('click', function(event) {
+    	    const formContainer = document.getElementById('form-container');
+    	    const orderNowButton = document.getElementById('order-now-button');
 
-    if (formContainer.style.display === 'block' && !formContainer.contains(event.target) && event.target !== orderNowButton) {
-        closeForm();
+    	    if (formContainer.style.display === 'block' && !formContainer.contains(event.target) && event.target !== orderNowButton) {
+        	closeForm();
+    	    }
+	});
+
+	document.addEventListener("DOMContentLoaded", function() {
+    const deliveryInfos = document.querySelectorAll('.delivery-info');
+
+    // Check if IntersectionObserver is supported
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add the 'animate' class when the element comes into view
+                    entry.target.classList.add('animate');
+                    // Stop observing once animation is triggered
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+
+        // Start observing each element
+        deliveryInfos.forEach(deliveryInfo => {
+            observer.observe(deliveryInfo);
+        });
+    } else {
+        // Fallback for unsupported browsers
+        deliveryInfos.forEach(deliveryInfo => {
+            deliveryInfo.classList.add('animate');
+        });
     }
 });
     </script>
