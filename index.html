@@ -743,16 +743,18 @@
 
                 	if (count >= 50) {
                     	    document.getElementById('order-now-button').style.display = 'none';
+			    document.getElementById('order-message').style.display = 'inline-block';
                     	    document.getElementById('order-message').innerText = "Sorry, stock out.😔 Don't forget to grab your Sprout Mix tomorrow.";
                 	} else {
-                    	    document.getElementById('order-message').innerText = ''; // Clear any previous message
+			    document.getElementById('order-message').style.display = 'none';
                 	}
 
 			if (hours >= 21) {
                     	    document.getElementById('order-now-button').style.display = 'none';
+			    document.getElementById('order-message').style.display = 'inline-block';
                     	    document.getElementById('order-message').innerText = "Time is up for ordering today (9 pm).😔 Don't forget to grab your Sprout Mix tomorrow.";
                 	} else {
-                    	    document.getElementById('order-message').innerText = ''; // Clear any previous message
+                    	    document.getElementById('order-message').style.display = 'none';
                 	}
             	    } else {
                 	console.error('No data found.');
